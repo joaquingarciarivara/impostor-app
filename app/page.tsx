@@ -295,7 +295,7 @@ export default function Page() {
   const [categories, setCategories] = useState<Category[]>([]);
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const saved = window.localStorage.getItem("impostor_categories_v3");
+    const saved = window.localStorage.getItem("impostor_categories_v4");
     if (saved) {
       try { setCategories(JSON.parse(saved)); }
       catch { setCategories(DEFAULT_CATEGORIES); }
@@ -305,7 +305,7 @@ export default function Page() {
   }, []);
   useEffect(() => {
     if (typeof window === "undefined") return;
-    window.localStorage.setItem("impostor_categories_v3", JSON.stringify(categories));
+    window.localStorage.setItem("impostor_categories_v4", JSON.stringify(categories));
   }, [categories]);
 
   // Selección (categoría o custom)
