@@ -29,39 +29,64 @@ const UI = {
 // ====== PRESETS por defecto (50 palabras c/u) ======
 const DEFAULT_CATEGORIES: Category[] = [
   {
-    id: "frutas",
-    name: "Frutas",
+    id: "jugadores-futbol",
+    name: "Jugadores de fútbol",
     words: [
-      "manzana","banana","naranja","pera","frutilla","uva","sandía","melón","kiwi","ciruela",
-      "durazno","mango","papaya","ananá","cereza","arándano","frambuesa","mora","pomelo","limón",
-      "mandarina","damasco","higo","granada","maracuyá","lichi","guayaba","tuna","coco","carambola",
-      "caqui","membrillo","tamarindo","bergamota","kumquat","níspero","grosella","arándano rojo","arándano negro","grosella negra",
-      "melocotón","plátano","kiwano","physalis","pitaya","naranja sanguina","pomelo rosado","mamey","moras blancas","yacaratiá"
-    ],
-  },
-  {
-    id: "cocina",
-    name: "Cocina",
-    words: [
-      "sartén","cuchillo","olla","hervir","horno","sal","aceite","receta","tostadora","espátula",
-      "cucharón","tabla","pelapapas","batidor","colador","microondas","licuadora","cucharita","tenedor","plato",
-      "cacerola","soplete","cuchara","vaso","taza","jarra","cuchillo chef","mortero","rodillo","balanza",
-      "rallador","mandolina","pinza","fuente","rejilla","batidora","freidora","plancha","molde","termómetro",
-      "film","aluminio","servilleta","individual","posapavas","abrelatas","sifón","pimentero","salero","paño"
+      "Messi","Cristiano Ronaldo","Maradona","Pelé","Ronaldinho","Zidane","Mbappé","Neymar","Benzema","Haaland",
+      "Modric","Iniesta","Xavi","Lewandowski","Sergio Ramos","Piqué","Dibu Martínez","Courtois","Valverde","Griezmann",
+      "Suárez","Salah","Dybala","De Bruyne","Van Dijk","Tagliafico","Armani","Gallardo","Pratto","Quintero",
+      "Pity Martinez","Casco","Mastantuono","Echeverry","Di María","Aguero","Riquelme","Tevez","Enzo Fernández","Bellingham",
+      "Beckham","Vinicius","Lautaro Martínez","Paredes","Mc Allister","Otamendi","Cafu","Foden","Julian Alvarez","Scaloni","Roberto Carlos"
     ],
   },
   {
     id: "lugares",
     name: "Lugares",
     words: [
-      "biblioteca","aeropuerto","playa","montaña","hospital","museo","estadio","hotel","teatro","oficina",
-      "plaza","parque","restaurante","bar","carnicería","panadería","verdulería","ferretería","escuela","universidad",
-      "gimnasio","piscina","estación","subte","colectora","autopista","terminal","zoológico","acuario","planetario",
-      "banco","farmacia","comisaría","municipalidad","embajada","consulado","estudio","galería","aula","cancha",
-      "patio","terraza","sótano","ático","cabaña","hostel","balneario","mirador","muelle","puente"
+      "Bar","Caix","Cine","Telo","Cine para adultos","Restaurante","Playa","Parque","Oficina","Baño público",
+      "Sauna","Auto","Callejón","Fiesta","Hotel","Hospital","UBA","Jumbo","Gimnasio","Teatro",
+      "Museo","Casino","Aeropuerto","Tren","Subte","Colegio","Iglesia","Norcenter","Plaza","Terraza",
+      "Unicenter","Glory hole","Lavadero","Peluquería","Monumental","Colegio Piaget","Cancha","Cancha de paddle","Mirador","Balneario",
+      "Obelisco","Patio","Barrio Chin","Farmacia","Shopping","Kiosco","La Boca","Lanus","Zoológico","Mercado",
+      "YPF"
+    ],
+  },
+  {
+    id: "personajes-varios",
+    name: "Personajes Varios",
+    words: [
+      "Bart Simpson","Che Guevara","Ibai","Homero Simpson","Bob Esponja","Shrek","Harry Potter","Hermione Granger","Spider-Man","Iron Man",
+      "Batman","Joker","Goku","Naruto","Milei","Elsa","Mickey Mouse","Woody","El Comandante","Ted",
+      "Chavo del 8","Peter Punk","Don Ramón","Freddie Mercury","Adam Sandler","Bad Bunny","Shakira","Taylor Swift","Will Smith","Papa Francisco",
+      "Albert Einstein","Bambi","Ken","Will Smith","Walle","Leonardo DiCaprio","Rihanna","Moski","Jennifer Aniston","El Raton Perez",
+      "Jesus","Hamas","Trump","Lazaro Baez","Eminem","Alfa","Elon Musk","Cristina Kirchner","Ben 10","Marley","San Martin"
+    ],
+  },
+  {
+    id: "objetos-18",
+    name: "Objetos +18",
+    words: [
+      "Plug Anal","Merca","Marihuana","Pipa","Video Porno","Tinder","Pasta Base","Pepa","Vibrador","Semen",
+      "Consolador","Picador","Pastilla del Día Después","Lubricante","Látigo","Esposas","Bola Anal","Tanga","Collar de Cuero","Gel Retardante",
+      "Condones","Cuerda","Pelucas","Muñeca Inflable","Crak","Popper","Burundanga","Tequila","Enano","Dados",
+      "Espray Pimienta","Pistola de Agua","Cadáver","Veneno","Tumor","Muñeco Vudú","Ouija","Pollock de Caca","Lencería de Látex","Sedas",
+      "Wax","Bong","Pasti","Balita Eléctrica","Vela de Cera","Clipper","Raid","Clonazepan","Calzon Palometeado","Revista Porno"
+    ],
+  },
+  {
+    id: "peliculas-series",
+    name: "Películas/Series/Programas",
+    words: [
+      "Los Simpson","Friends","Breaking Bad","Game of Thrones","Stranger Things","The Walking Dead","La Casa de Papel","El Marginal","Casi Angeles","Grey’s Anatomy",
+      "How I Met Your Mother","The Big Bang Theory","Vikingos","Peaky Blinders","Narcos","Graduados","Euphoria","The Office","Hachiko","El Juego del Calamar",
+      "House of the Dragon","Que pasó ayer","Mi villano favorito","The Boys","El Chavo del 8","Dragon Ball Z","Naruto","Donde estan las rubias?","Rick y Morty","Bob Esponja",
+      "Toy Story","Shrek","Backyardigan","Avatar","Titanic","Avengers Endgame","MasterChe","Son Como Niños","Barney","Psicosis",
+      "Gran Hermano","El Señor de los Anillos","Matrix","Casados con Hijos","Jurassic Park","Rápido y Furioso","Rocky","Volver al Futuro","Mi Pobre Angelito","Forrest Gump",
+      "Barbie"
     ],
   },
 ];
+
 
 // ====== Helpers (con guards para SSR) ======
 function clamp(n: number, min: number, max: number) { return Math.max(min, Math.min(max, n)); }
