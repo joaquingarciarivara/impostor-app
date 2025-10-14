@@ -2,12 +2,13 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 
-/** EL IMPOSTOR — versión completa (oscura) con:
+/** EL IMPOSTOR — versión completa (oscura)
  * - Menú → Categorías / Custom / Gestionar categorías
  * - Gestionar categorías: crear, editar, borrar, agregar muchas palabras con UNA textarea, chips removibles, secciones plegables
  * - Custom: igual patrón (chips + “Guardar como categoría”)
- * - No repetir palabras hasta agotar (persistencia por categoría)
+ * - No repetir palabras hasta agotar (persistencia por categoría en localStorage)
  * - Fix SSR: todos los accesos a localStorage protegidos
+ * - Fix build: toggle con !o (no XOR), sin “0” fantasma
  */
 
 type Phase = "menu" | "categories" | "manage" | "custom" | "players" | "reveal" | "between";
@@ -163,7 +164,8 @@ function CategoryRow({
   const [stash, setStash] = useState("");
   const [words, setWords] = useState<string[]>(category.words);
 
-  useEffect(() => { setName(category.name); setWords(category.words); }, [category.id]);
+  // incluir name/words para evitar warnings de ESLint (no rompen build, pero lo dejamos prolijo)
+  useEffect(() => { setName(category.name); setWords(category.words); }, [category.id, category.name, category.words]);
 
   function addStash() {
     const lines = splitByLines(stash);
@@ -175,7 +177,10 @@ function CategoryRow({
 
   return (
     <div className="rounded-xl border border-neutral-800">
-      <button onClick={() => setOpen(o => o ^ true)} className="w-full flex items-center justify-between px-4 py-3">
+      <button
+        onClick={() => setOpen(o => !o)}   // <-- FIX: antes era XOR (o ^ true)
+        className="w-full flex items-center justify-between px-4 py-3"
+      >
         <div className="text-left">
           <div className="font-medium">{name}</div>
           <div className="text-xs text-neutral-500">{words.length} palabras</div>
@@ -342,19 +347,36 @@ export default function Page() {
     setSecretWord(next); used.add(next); saveUsedSet(wordsKey, used); return true;
   }
   function preparePlayersAndRoles() {
-    // Sesgo leve: jugador 1 con 0.75 del peso del resto
-    const weights = Array.from({ length: players }, (_, i) => (i === 0 ? 0.75 : 1));
-    const chosen: number[] = [];
-    const w = weights.slice();
-    for (let k = 0; k < impostors; k++) {
-      const sum = w.reduce((a, b) => a + b, 0);
-      let r = Math.random() * sum, idx = 0;
-      while (r >= w[idx]) { r -= w[idx]; idx++; }
-      chosen.push(idx); w[idx] = 0;
+  // Sesgo leve: jugador 1 con 0.75 del peso del resto
+  const weights: number[] = Array.from({ length: players }, (_, i) => (i === 0 ? 0.75 : 1));
+  const chosen: number[] = [];
+  const w: number[] = weights.slice(); // <- number[] (tipo ensanchado)
+
+  for (let k = 0; k < impostors; k++) {
+    const total = w.reduce((a, b) => a + b, 0);
+    if (total <= 0) break;
+
+    let r = Math.random() * total;
+    let pick = -1;
+
+    for (let i = 0; i < w.length; i++) {
+      r -= w[i];
+      if (r <= 0) { pick = i; break; }
     }
-    const flags = Array.from({ length: players }, (_, i) => chosen.includes(i));
-    setIsImpostor(flags); setCurrentIndex(0); setRevealed(false);
+    if (pick === -1) {
+      pick = w.findIndex(val => val > 0);
+      if (pick === -1) break;
+    }
+
+    chosen.push(pick);
+    w[pick] = 0; // ahora no rompe: w es number[]
   }
+
+  const flags = Array.from({ length: players }, (_, i) => chosen.includes(i));
+  setIsImpostor(flags);
+  setCurrentIndex(0);
+  setRevealed(false);
+}
   function startGame() {
     if (players < 3) { alert("Mínimo 3 jugadores"); return; }
     if (impostors >= players) { alert("Impostores no pueden ser >= jugadores"); return; }
@@ -364,13 +386,13 @@ export default function Page() {
   function nextPlayer() { if (currentIndex + 1 >= players) { setPhase("between"); setRevealed(false); } else { setCurrentIndex(i => i + 1); setRevealed(false); } }
   function nextRound() { if (!ensureNewWordOrAlert()) return; preparePlayersAndRoles(); setPhase("reveal"); }
   function resetAll() {
-    setPhase("menu"); setSelectedCategoryId(null); setCustomList([]); 
+    setPhase("menu"); setSelectedCategoryId(null); setCustomList([]);
     setPlayers(6); setImpostors(1); setCurrentIndex(0); setRevealed(false); setSecretWord(null); setIsImpostor([]);
   }
 
   // Render
   return (
-    <main className={`min-h-screen w-full flex items-center justify-center p-4 bg-gradient-to-br ${UI.bg}`}>
+    <main className={`min-h-screen w/full flex items-center justify-center p-4 bg-gradient-to-br ${UI.bg}`}>
       <div className="w-full max-w-xl">
         <Header />
 
